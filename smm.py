@@ -8,8 +8,8 @@ import sys, os, random, configparser, yt_dlp
 
 # Sets up the config file and reads and/or writes the file depending on if it exists
 config = configparser.ConfigParser()
-config['yt-dlp'] = {'Playlist Mirroring': 'False',
-					'Playlist URL': 'https://www.youtube.com/playlist?list=PLddJoGM8SQ49JKhX2KXcTVvsXO0-_xTOm'
+config['yt-dlp'] = {'playlist_mirroring': 'false',
+					'playlist_url': 'https://www.youtube.com/playlist?list=PLddJoGM8SQ49JKhX2KXcTVvsXO0-_xTOm'
 					}
 
 if (not os.path.isfile('config.ini')):
@@ -23,7 +23,7 @@ else:
 class Worker(QRunnable):
 	def run(self):
 		# Grabs the URLs to download from the config
-		URLS = [config['yt-dlp']['Playlist URL']]
+		URLS = [config['yt-dlp']['playlist_url']]
 		# Logger class to print what ytdlp is doing
 		class MyLogger():			
 			def debug(self, msg):
@@ -135,7 +135,7 @@ class Ui(QMainWindow):
 		self.show()
 		
 		# Starts the yt-dlp thread if it is set to True in the config
-		if (config['yt-dlp']['Playlist Mirroring'] == 'True'):
+		if (config['yt-dlp']['playlist_mirroring'] == 'true'):
 			self.threadpool = QThreadPool()
 			worker = Worker()
 			self.threadpool.start(worker)
