@@ -85,6 +85,8 @@ class Ui(QMainWindow):
 		mixer.init()
 		
 		# Loads files into the queue
+		if (not os.path.isdir('music')):
+			os.mkdir('music')
 		songs = os.listdir('music')
 		for song in songs:
 			if (song.endswith(".mp3")):
