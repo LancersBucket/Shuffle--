@@ -9,7 +9,7 @@ import sys, os, random, configparser, yt_dlp
 # Sets up the config file and reads and/or writes the file depending on if it exists
 config = configparser.ConfigParser()
 config['yt-dlp'] = {'playlist_mirroring': 'false',
-					'playlist_url': 'https://www.youtube.com/playlist?list=PLddJoGM8SQ49JKhX2KXcTVvsXO0-_xTOm'
+					'playlist_url': 'https://www.youtube.com/playlist?list=example'
 					}
 
 if (not os.path.isfile('config.ini')):
@@ -145,33 +145,40 @@ class Ui(QMainWindow):
 		array = random.shuffle(array)
 
 	def playsong(self):
-		# Gets the name of the file in the queue displays what is currently playing
-		name = self.queue[self.currentPos]
-		self.status.showMessage("[" + str(self.currentPos+1)+"/"+str(len(self.queue))+"] " + name[0:-4])
+		try:
+			# Gets the name of the file in the queue displays what is currently playing
+			name = self.queue[self.currentPos]
+			self.status.showMessage("[" + str(self.currentPos+1)+"/"+str(len(self.queue))+"] " + name[0:-4])
 
-		# Loads the music and plays it
-		mixer.music.load('music/'+name)
-		mixer.music.play()
-		mixer.music.set_volume(self.vol.value()/100)
+			# Loads the music and plays it
+			mixer.music.load('music/'+name)
+			mixer.music.set_volume(self.vol.value()/100)
+			mixer.music.play()
+		except:
+			self.status.showMessage("Error: No songs are loaded.")
 
 	# Handles pausing and playing. Don't question it. I had to do it this way. I hope.
 	def playPauseButton(self):
-		if not self.playing:
-			self.playing = True
-			if (self.paused):
-				mixer.music.unpause()
-				name = self.queue[self.currentPos]
-				self.status.showMessage("[" + str(self.currentPos+1)+"/"+str(len(self.queue))+"] " + name[0:-4])
-				self.paused = False
+		try:
+			if not self.playing:
+				self.playing = True
+				if (self.paused):
+					mixer.music.unpause()
+					name = self.queue[self.currentPos]
+					self.status.showMessage("[" + str(self.currentPos+1)+"/"+str(len(self.queue))+"] " + name[0:-4])
+					self.paused = False
+				else:
+					self.playsong()
+				self.playPause.__setattr__("text","Pause")
 			else:
-				self.playsong()
-			self.playPause.__setattr__("text","Pause")
-		else:
-			self.playing = False
-			self.paused = True
-			mixer.music.pause()
-			self.playPause.__setattr__("text","Play")
-			self.status.showMessage("Paused")
+				self.playing = False
+				self.paused = True
+				mixer.music.pause()
+				self.playPause.__setattr__("text","Play")
+				self.status.showMessage("Paused")
+		except:
+			self.status.showMessage("Error: No songs are loaded.")
+
 
 	# Decrements the queue position
 	def backButton(self):
