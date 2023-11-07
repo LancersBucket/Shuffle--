@@ -1,6 +1,7 @@
 music/*
 *.code-workspace
 .vscode
+__pycache__
 build
 dist
 *.spec
