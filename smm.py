@@ -198,10 +198,11 @@ class Ui(QMainWindow):
 		else:
 			self.currentPos += 1
 		self.playsong()
-
+	
 	# Monitors volume change
 	def volChange(self):
 		mixer.music.set_volume(self.vol.value()/100)
+		self.status.showMessage("Volume: " + str(self.vol.value()), 2000)
 
 	# Reloads the queue and shuffles it
 	def shuffleButton(self):
