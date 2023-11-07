@@ -1,3 +1,6 @@
 music/*
 *.code-workspace
 .vscode
+build
+dist
+*.spec

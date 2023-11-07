@@ -96,7 +96,7 @@ class Ui(QMainWindow):
 		Ui.shuffle(self.queue)
 
 		# Loads the predefined ui file from Qt Designer
-		uic.loadUi('untitled.ui', self)
+		uic.loadUi(os.path.dirname(__file__)+'\\untitled.ui', self)
 		
 		# Configure the hooks for the buttons/sliders/Status bar
 		self.playPause = self.findChild(QPushButton, 'PlayPause')
